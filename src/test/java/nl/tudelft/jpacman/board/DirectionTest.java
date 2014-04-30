@@ -27,7 +27,7 @@ public class DirectionTest {
 	
 	@Test
 	public void directionTest3() {
-		assertEquals(20, Direction.EAST.getDeltaX());
+		assertEquals(1, Direction.EAST.getDeltaX());
 	}
 	
 	@Test
