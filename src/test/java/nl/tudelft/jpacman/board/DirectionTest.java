@@ -19,5 +19,22 @@ public class DirectionTest {
 	public void directionTest() {
 		assertEquals(0, Direction.NORTH.getDeltaX());
 	}
+	
+	@Test
+	public void directionTest2() {
+		assertEquals(0, Direction.SOUTH.getDeltaX());
+	}
+	
+	@Test
+	public void directionTest3() {
+		assertEquals(1, Direction.EAST.getDeltaX());
+	}
+	
+	@Test
+	public void directionTest4() {
+		assertEquals(-1, Direction.WEST.getDeltaX());
+	}
+	
+	
 
 }
