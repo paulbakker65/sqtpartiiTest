@@ -98,6 +98,29 @@ private Launcher launcher;
         //Scenario 2.5
         
         
+        //Scenario 3.1
+        game = launcher.makeGame();
+        player = game.getPlayers().get(0);
+        game.start();
+        assertTrue(game.isInProgress());
+        game.move(player, Direction.EAST);
+        game.move(player, Direction.WEST);
+        
+        Square gSquare = player.getSquare().getSquareAt(Direction.EAST).getSquareAt(Direction.EAST);
+        gSquare.put(ghost);
+        
+        Square g1Square = gSquare.getSquareAt(Direction.WEST);
+        assertTrue(g1Square.getOccupants().isEmpty());
+        assertTrue(g1Square.isAccessibleTo(ghost));
+        
+        //Scenario 3.2
+        
+        
+        //Scenario 3.3
+        
+        
+        //Scenario 3.4
+        
         
         //Scenario 4.1
         game = launcher.makeGame();
@@ -112,7 +135,7 @@ private Launcher launcher;
         assertFalse(game.isInProgress());
         game.move(player, player.getDirection());
         assertEquals(player.getSquare(), playerSquare);
-        Thread.sleep(5000);
+        Thread.sleep(2000);
         assertEquals(player.getSquare(), playerSquare);
         assertTrue(playerSquare.getSquareAt(player.getDirection()).getOccupants().contains(ghost));
       
