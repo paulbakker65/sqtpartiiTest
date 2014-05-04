@@ -124,12 +124,12 @@ private Launcher launcher;
         player = game.getPlayers().get(0);
         game.start();
         assertTrue(game.isInProgress());
-
-        
+ 
         gSquare = player.getSquare().getSquareAt(Direction.EAST);
         gSquare.put(ghost);
-        
+       
         g1Square = gSquare.getSquareAt(Direction.WEST);
+        assertTrue(g1Square.getOccupants().contains(player));
         assertTrue(g1Square.isAccessibleTo(ghost));
         
         Thread.sleep(5000);
