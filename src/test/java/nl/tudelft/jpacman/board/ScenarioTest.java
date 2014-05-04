@@ -99,9 +99,27 @@ private Launcher launcher;
         
         
         
+        //Scenario 4.1
+        game = launcher.makeGame();
+        player = game.getPlayers().get(0);
+        game.start();
+        assertTrue(game.isInProgress());
+        playerSquare = player.getSquare();
+        playerSquare.getSquareAt(player.getDirection()).put(ghost);
         
         
-        
+        game.stop();
+        assertFalse(game.isInProgress());
+        game.move(player, player.getDirection());
+        assertEquals(player.getSquare(), playerSquare);
+        Thread.sleep(5000);
+        assertEquals(player.getSquare(), playerSquare);
+        assertTrue(playerSquare.getSquareAt(player.getDirection()).getOccupants().contains(ghost));
+      
+        //Scenario 4.2
+        assertFalse(game.isInProgress());
+        game.start();
+        assertTrue(game.isInProgress());
         
     }
 }
