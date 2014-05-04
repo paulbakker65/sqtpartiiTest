@@ -120,7 +120,20 @@ private Launcher launcher;
         
         
         //Scenario 3.4
+        game = launcher.makeGame();
+        player = game.getPlayers().get(0);
+        game.start();
+        assertTrue(game.isInProgress());
+
         
+        gSquare = player.getSquare().getSquareAt(Direction.EAST);
+        gSquare.put(ghost);
+        
+        g1Square = gSquare.getSquareAt(Direction.WEST);
+        assertTrue(g1Square.isAccessibleTo(ghost));
+        
+        Thread.sleep(5000);
+        assertFalse(game.isInProgress());
         
         //Scenario 4.1
         game = launcher.makeGame();
@@ -129,7 +142,6 @@ private Launcher launcher;
         assertTrue(game.isInProgress());
         playerSquare = player.getSquare();
         playerSquare.getSquareAt(player.getDirection()).put(ghost);
-        
         
         game.stop();
         assertFalse(game.isInProgress());
