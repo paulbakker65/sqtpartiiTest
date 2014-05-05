@@ -35,6 +35,7 @@ public class BoundaryTest {
 	public void tearDown() {
 		launcher.dispose();
 	}
+	
 	@Test
 	public void testBoundary() {
 		Board board = launcher.getGame().getLevel().getBoard();

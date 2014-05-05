@@ -46,7 +46,7 @@ private Launcher launcher;
         assertFalse(game.isInProgress());
         game.start();
         assertTrue(game.isInProgress());
-        
+
         //Scenario 2.1
         assertTrue(game.isInProgress());
         Square pSquare = player.getSquare();
