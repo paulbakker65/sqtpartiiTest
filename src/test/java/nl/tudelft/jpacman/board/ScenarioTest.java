@@ -113,10 +113,43 @@ private Launcher launcher;
         assertTrue(g1Square.getOccupants().isEmpty());
         assertTrue(g1Square.isAccessibleTo(ghost));
         
+        
         //Scenario 3.2
+        game = launcher.makeGame();
+        player = game.getPlayers().get(0);
+        game.start();
+        assertTrue(game.isInProgress());
+        
+        //Put a ghost 2 squares East from the player
+        Square g0Square = player.getSquare().getSquareAt(Direction.EAST).getSquareAt(Direction.EAST);
+        g0Square.put(ghost);
+        
+        //Check if the square left to the ghost is accessible
+        Square g2Square = g0Square.getSquareAt(Direction.WEST);
+        Pellet gpellet = (Pellet) g2Square.getOccupants().get(0);
+        assertEquals(gpellet.getValue(),10);
+        assertTrue(g2Square.isAccessibleTo(ghost));
+        
+        //Move the ghost to the left
+        g0Square.remove(ghost);
+        g2Square.put(ghost);
+        
+        //Check if the ghost and the pellet are still there
+        Pellet g1pellet = (Pellet) g2Square.getOccupants().get(0);
+        assertTrue(g2Square.getOccupants().contains(ghost));
+        assertTrue(g2Square.getOccupants().contains(g1pellet));
         
         
         //Scenario 3.3
+        
+        //Remove the ghost and put it back on the square to the right
+        g2Square.remove(ghost);
+        g0Square.put(ghost);
+        
+        //Check if the pellet is still there and the ghost is removed
+        g1pellet = (Pellet) g2Square.getOccupants().get(0);
+        assertFalse(g2Square.getOccupants().contains(ghost));
+        assertTrue(g2Square.getOccupants().contains(g1pellet));
         
         
         //Scenario 3.4
