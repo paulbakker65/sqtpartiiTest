@@ -175,11 +175,11 @@ public class ScenarioTest {
 		// Move the ghost to the left
 		g0Square.remove(ghost);
 		g2Square.put(ghost);
-
-		// Check if the ghost and the pellet are still there
+		
+		// Check if the pellet is still there (index should be smaller than index of ghost)
 		Pellet g1pellet = (Pellet) g2Square.getOccupants().get(0);
-		assertTrue(g2Square.getOccupants().contains(ghost));
-		assertTrue(g2Square.getOccupants().contains(g1pellet));
+		assertTrue(g2Square.getOccupants().indexOf(ghost) > g2Square.getOccupants().indexOf(g1pellet));
+
 	}
 
 	@Test
@@ -197,10 +197,9 @@ public class ScenarioTest {
 		g2Square.remove(ghost);
 		g0Square.put(ghost);
 
-		// Check if the pellet is still there and the ghost is removed
+		// Check if the pellet is still there (index should be greater than index of ghost)
 		g1pellet = (Pellet) g2Square.getOccupants().get(0);
-		assertFalse(g2Square.getOccupants().contains(ghost));
-		assertTrue(g2Square.getOccupants().contains(g1pellet));
+		assertTrue(g2Square.getOccupants().indexOf(ghost) < g2Square.getOccupants().indexOf(g1pellet));
 	}
 
 	@Test
