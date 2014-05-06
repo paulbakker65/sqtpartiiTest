@@ -18,176 +18,245 @@ import org.junit.Test;
 
 public class ScenarioTest {
 
-	
-private Launcher launcher;
-	
+	private Launcher launcher;
+
 	@Before
 	public void setUpPacman() {
 		launcher = new Launcher();
 		launcher.launch();
 	}
-	
+
 	@After
 	public void tearDown() {
 		launcher.dispose();
 	}
 
-    /**
-     * Launch the game, and imitate what would happen
-     * in a typical game.
-     * @throws InterruptedException Since we're sleeping in this test.
-     */
-    @Test
-    public void startTest() throws InterruptedException {
-        Game game = launcher.getGame();        
-        Player player = game.getPlayers().get(0);
- 
-        //Scenario 1
-        assertFalse(game.isInProgress());
-        game.start();
-        assertTrue(game.isInProgress());
+	/**
+	 * Launch the game, and imitate what would happen in a typical game.
+	 * 
+	 * @throws InterruptedException
+	 *             Since we're sleeping in this test.
+	 */
+	@Test
+	public void scenario1Test() throws InterruptedException {
+		Game game = launcher.getGame();
 
-        //Scenario 2.1
-        assertTrue(game.isInProgress());
-        Square pSquare = player.getSquare();
-        Square t1Square = pSquare.getSquareAt(player.getDirection());
-        Pellet pellet = (Pellet) t1Square.getOccupants().get(0);
-        assertEquals(pellet.getValue(),10);
-        
-        assertEquals(0, player.getScore());
-        game.move(player, player.getDirection());
-        assertEquals(player.getSquare(), t1Square);
-        assertEquals(10, player.getScore());
-        assertFalse(t1Square.getOccupants().contains(pellet));
-        
-        //Scenario 2.2
-        assertTrue(game.isInProgress());
-        assertEquals(player.getDirection(),Direction.EAST);
-        game.move(player, Direction.WEST);
-        assertTrue(t1Square.getOccupants().isEmpty());
-        
-        int score = player.getScore();
-        game.move(player, Direction.EAST);
-        assertEquals(player.getSquare(), t1Square);
-        assertEquals(player.getScore(), score);
-        
-        //Scenario 2.3
-        assertTrue(game.isInProgress());
-        Square t2Square = t1Square.getSquareAt(player.getDirection());
-        PacManSprites sprites = new PacManSprites();
-        Ghost ghost = new Blinky(sprites.getGhostSprite(GhostColor.RED));
-        t2Square.put(ghost);
-        assertTrue(t2Square.getOccupants().contains(ghost));
-        
-        game.move(player, player.getDirection());
-        assertFalse(player.isAlive());
-        assertFalse(game.isInProgress());
-        
-        //Scenario 2.4
-        game = launcher.makeGame();
-        player = game.getPlayers().get(0);
-        game.start();
-        assertTrue(game.isInProgress());
-        Square playerSquare = player.getSquare();
-        Square t3Square = playerSquare.getSquareAt(Direction.NORTH);
-        assertFalse(t3Square.isAccessibleTo(player));
-        
-        game.move(player, Direction.NORTH);
-        assertEquals(player.getSquare(), playerSquare);
-        
-        //Scenario 2.5
-        
-        
-        //Scenario 3.1
-        game = launcher.makeGame();
-        player = game.getPlayers().get(0);
-        game.start();
-        assertTrue(game.isInProgress());
-        game.move(player, Direction.EAST);
-        game.move(player, Direction.WEST);
-        
-        Square gSquare = player.getSquare().getSquareAt(Direction.EAST).getSquareAt(Direction.EAST);
-        gSquare.put(ghost);
-        
-        Square g1Square = gSquare.getSquareAt(Direction.WEST);
-        assertTrue(g1Square.getOccupants().isEmpty());
-        assertTrue(g1Square.isAccessibleTo(ghost));
-        
-        
-        //Scenario 3.2
-        game = launcher.makeGame();
-        player = game.getPlayers().get(0);
-        game.start();
-        assertTrue(game.isInProgress());
-        
-        //Put a ghost 2 squares East from the player
-        Square g0Square = player.getSquare().getSquareAt(Direction.EAST).getSquareAt(Direction.EAST);
-        g0Square.put(ghost);
-        
-        //Check if the square left to the ghost is accessible
-        Square g2Square = g0Square.getSquareAt(Direction.WEST);
-        Pellet gpellet = (Pellet) g2Square.getOccupants().get(0);
-        assertEquals(gpellet.getValue(),10);
-        assertTrue(g2Square.isAccessibleTo(ghost));
-        
-        //Move the ghost to the left
-        g0Square.remove(ghost);
-        g2Square.put(ghost);
-        
-        //Check if the ghost and the pellet are still there
-        Pellet g1pellet = (Pellet) g2Square.getOccupants().get(0);
-        assertTrue(g2Square.getOccupants().contains(ghost));
-        assertTrue(g2Square.getOccupants().contains(g1pellet));
-        
-        
-        //Scenario 3.3
-        
-        //Remove the ghost and put it back on the square to the right
-        g2Square.remove(ghost);
-        g0Square.put(ghost);
-        
-        //Check if the pellet is still there and the ghost is removed
-        g1pellet = (Pellet) g2Square.getOccupants().get(0);
-        assertFalse(g2Square.getOccupants().contains(ghost));
-        assertTrue(g2Square.getOccupants().contains(g1pellet));
-        
-        
-        //Scenario 3.4
-        game = launcher.makeGame();
-        player = game.getPlayers().get(0);
-        game.start();
-        assertTrue(game.isInProgress());
- 
-        gSquare = player.getSquare().getSquareAt(Direction.EAST);
-        gSquare.put(ghost);
-       
-        g1Square = gSquare.getSquareAt(Direction.WEST);
-        assertTrue(g1Square.getOccupants().contains(player));
-        assertTrue(g1Square.isAccessibleTo(ghost));
-        
-        Thread.sleep(5000);
-        assertFalse(game.isInProgress());
-        
-        //Scenario 4.1
-        game = launcher.makeGame();
-        player = game.getPlayers().get(0);
-        game.start();
-        assertTrue(game.isInProgress());
-        playerSquare = player.getSquare();
-        playerSquare.getSquareAt(player.getDirection()).put(ghost);
-        
-        game.stop();
-        assertFalse(game.isInProgress());
-        game.move(player, player.getDirection());
-        assertEquals(player.getSquare(), playerSquare);
-        Thread.sleep(2000);
-        assertEquals(player.getSquare(), playerSquare);
-        assertTrue(playerSquare.getSquareAt(player.getDirection()).getOccupants().contains(ghost));
-      
-        //Scenario 4.2
-        assertFalse(game.isInProgress());
-        game.start();
-        assertTrue(game.isInProgress());
-        
-    }
+		// Scenario 1
+		assertFalse(game.isInProgress());
+		game.start();
+		assertTrue(game.isInProgress());
+	}
+
+	@Test
+	public void scenario2_1Test() throws InterruptedException {
+
+		Game game = launcher.getGame();
+		Player player = game.getPlayers().get(0);
+		game.start();
+		assertTrue(game.isInProgress());
+		Square pSquare = player.getSquare();
+		Square t1Square = pSquare.getSquareAt(player.getDirection());
+		Pellet pellet = (Pellet) t1Square.getOccupants().get(0);
+		assertEquals(pellet.getValue(), 10);
+
+		assertEquals(0, player.getScore());
+		game.move(player, player.getDirection());
+		assertEquals(player.getSquare(), t1Square);
+		assertEquals(10, player.getScore());
+		assertFalse(t1Square.getOccupants().contains(pellet));
+
+	}
+
+	@Test
+	public void scenario2_2Test() throws InterruptedException {
+		Game game = launcher.getGame();
+		Player player = game.getPlayers().get(0);
+		game.start();
+		assertTrue(game.isInProgress());
+
+		Square pSquare = player.getSquare();
+		Square t1Square = pSquare.getSquareAt(player.getDirection());
+		assertEquals(player.getDirection(), Direction.EAST);
+		game.move(player, Direction.EAST);
+		game.move(player, Direction.WEST);
+		assertTrue(t1Square.getOccupants().isEmpty());
+
+		int score = player.getScore();
+		game.move(player, Direction.EAST);
+		assertEquals(player.getSquare(), t1Square);
+		assertEquals(player.getScore(), score);
+	}
+
+	@Test
+	public void scenario2_3Test() throws InterruptedException {
+		Game game = launcher.getGame();
+		Player player = game.getPlayers().get(0);
+		game.start();
+		assertTrue(game.isInProgress());
+
+		Square pSquare = player.getSquare();
+		Square t1Square = pSquare.getSquareAt(player.getDirection());
+
+		PacManSprites sprites = new PacManSprites();
+		Ghost ghost = new Blinky(sprites.getGhostSprite(GhostColor.RED));
+
+		t1Square.put(ghost);
+		assertTrue(t1Square.getOccupants().contains(ghost));
+
+		game.move(player, player.getDirection());
+		assertFalse(player.isAlive());
+		assertFalse(game.isInProgress());
+	}
+
+	@Test
+	public void scenario2_4Test() throws InterruptedException {
+		Game game = launcher.getGame();
+		Player player = game.getPlayers().get(0);
+		game = launcher.makeGame();
+		player = game.getPlayers().get(0);
+		game.start();
+		assertTrue(game.isInProgress());
+		Square playerSquare = player.getSquare();
+		Square t3Square = playerSquare.getSquareAt(Direction.NORTH);
+		assertFalse(t3Square.isAccessibleTo(player));
+
+		game.move(player, Direction.NORTH);
+		assertEquals(player.getSquare(), playerSquare);
+	}
+
+	// Scenario 2.5
+
+	@Test
+	public void scenario3_1Test() throws InterruptedException {
+		Game game = launcher.getGame();
+		Player player = game.getPlayers().get(0);
+		game = launcher.makeGame();
+		player = game.getPlayers().get(0);
+		game.start();
+		assertTrue(game.isInProgress());
+		game.move(player, Direction.EAST);
+		game.move(player, Direction.WEST);
+
+		Square gSquare = player.getSquare().getSquareAt(Direction.EAST)
+				.getSquareAt(Direction.EAST);
+		PacManSprites sprites = new PacManSprites();
+		Ghost ghost = new Blinky(sprites.getGhostSprite(GhostColor.RED));
+
+		gSquare.put(ghost);
+
+		Square g1Square = gSquare.getSquareAt(Direction.WEST);
+		assertTrue(g1Square.getOccupants().isEmpty());
+		assertTrue(g1Square.isAccessibleTo(ghost));
+
+	}
+
+	@Test
+	public void scenario3_2Test() throws InterruptedException {
+		Game game = launcher.getGame();
+		Player player = game.getPlayers().get(0);
+		game = launcher.makeGame();
+		player = game.getPlayers().get(0);
+		game.start();
+		assertTrue(game.isInProgress());
+
+		// Put a ghost 2 squares East from the player
+		Square g0Square = player.getSquare().getSquareAt(Direction.EAST)
+				.getSquareAt(Direction.EAST);
+		PacManSprites sprites = new PacManSprites();
+		Ghost ghost = new Blinky(sprites.getGhostSprite(GhostColor.RED));
+		g0Square.put(ghost);
+
+		// Check if the square left to the ghost is accessible
+		Square g2Square = g0Square.getSquareAt(Direction.WEST);
+		Pellet gpellet = (Pellet) g2Square.getOccupants().get(0);
+		assertEquals(gpellet.getValue(), 10);
+		assertTrue(g2Square.isAccessibleTo(ghost));
+
+		// Move the ghost to the left
+		g0Square.remove(ghost);
+		g2Square.put(ghost);
+
+		// Check if the ghost and the pellet are still there
+		Pellet g1pellet = (Pellet) g2Square.getOccupants().get(0);
+		assertTrue(g2Square.getOccupants().contains(ghost));
+		assertTrue(g2Square.getOccupants().contains(g1pellet));
+	}
+
+	@Test
+	public void scenario3_3Test() throws InterruptedException {
+		Game game = launcher.getGame();
+		Player player = game.getPlayers().get(0);
+		PacManSprites sprites = new PacManSprites();
+		Ghost ghost = new Blinky(sprites.getGhostSprite(GhostColor.RED));
+
+		Square g0Square = player.getSquare().getSquareAt(Direction.EAST)
+				.getSquareAt(Direction.EAST);
+		Square g2Square = g0Square.getSquareAt(Direction.WEST);
+		Pellet g1pellet = (Pellet) g2Square.getOccupants().get(0);
+		// Remove the ghost and put it back on the square to the right
+		g2Square.remove(ghost);
+		g0Square.put(ghost);
+
+		// Check if the pellet is still there and the ghost is removed
+		g1pellet = (Pellet) g2Square.getOccupants().get(0);
+		assertFalse(g2Square.getOccupants().contains(ghost));
+		assertTrue(g2Square.getOccupants().contains(g1pellet));
+	}
+
+	@Test
+	public void scenario3_4Test() throws InterruptedException {
+		Game game = launcher.getGame();
+		Player player = game.getPlayers().get(0);
+		game = launcher.makeGame();
+		player = game.getPlayers().get(0);
+		game.start();
+		assertTrue(game.isInProgress());
+
+		Square gSquare = player.getSquare().getSquareAt(Direction.EAST);
+		PacManSprites sprites = new PacManSprites();
+		Ghost ghost = new Blinky(sprites.getGhostSprite(GhostColor.RED));
+		gSquare.put(ghost);
+
+		Square g1Square = gSquare.getSquareAt(Direction.WEST);
+		assertTrue(g1Square.getOccupants().contains(player));
+		assertTrue(g1Square.isAccessibleTo(ghost));
+
+		Thread.sleep(5000);
+		assertFalse(game.isInProgress());
+	}
+
+	@Test
+	public void scenario4_1Test() throws InterruptedException {
+		Game game = launcher.getGame();
+		Player player = game.getPlayers().get(0);
+		game = launcher.makeGame();
+		player = game.getPlayers().get(0);
+		game.start();
+		assertTrue(game.isInProgress());
+		Square playerSquare = player.getSquare();
+
+		PacManSprites sprites = new PacManSprites();
+		Ghost ghost = new Blinky(sprites.getGhostSprite(GhostColor.RED));
+
+		playerSquare.getSquareAt(player.getDirection()).put(ghost);
+
+		game.stop();
+		assertFalse(game.isInProgress());
+		game.move(player, player.getDirection());
+		assertEquals(player.getSquare(), playerSquare);
+		Thread.sleep(2000);
+		assertEquals(player.getSquare(), playerSquare);
+		assertTrue(playerSquare.getSquareAt(player.getDirection())
+				.getOccupants().contains(ghost));
+	}
+
+	@Test
+	public void scenario4_2Test() throws InterruptedException {
+
+		Game game = launcher.getGame();
+		assertFalse(game.isInProgress());
+		game.start();
+		assertTrue(game.isInProgress());
+
+	}
 }
