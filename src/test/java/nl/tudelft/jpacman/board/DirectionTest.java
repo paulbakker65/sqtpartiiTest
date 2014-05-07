@@ -20,16 +20,25 @@ public class DirectionTest {
 		assertEquals(0, Direction.NORTH.getDeltaX());
 	}
 	
+	/**
+	 * Do we get the correct horizontal delta when moving south?
+	 */
 	@Test
 	public void directionTest2() {
 		assertEquals(0, Direction.SOUTH.getDeltaX());
 	}
 	
+	/**
+	 * Do we get the correct horizontal delta when moving east?
+	 */
 	@Test
 	public void directionTest3() {
 		assertEquals(1, Direction.EAST.getDeltaX());
 	}
 	
+	/**
+	 * Do we get the correct horizontal delta when moving west?
+	 */
 	@Test
 	public void directionTest4() {
 		assertEquals(-1, Direction.WEST.getDeltaX());
