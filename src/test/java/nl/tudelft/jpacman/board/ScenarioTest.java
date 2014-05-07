@@ -124,7 +124,43 @@ public class ScenarioTest {
 		assertEquals(player.getSquare(), playerSquare);
 	}
 
-	// Scenario 2.5
+	@Test
+	public void scenario2_5Test() throws InterruptedException {
+		Game game = launcher.getGame();
+		Player player = game.getPlayers().get(0);
+		game.start();
+		Square square = player.getSquare();
+		
+		for(int i = 0; i < game.getLevel().getBoard().getHeight(); i++){
+			for(int j = 0; j < game.getLevel().getBoard().getWidth(); j++){
+			  if(!(game.getLevel().getBoard().squareAt(j, i).getOccupants().isEmpty()) ){
+				if(game.getLevel().getBoard().squareAt(j, i).getOccupants().contains(player)){
+					j++;
+				}
+				else{
+					Unit pellet = game.getLevel().getBoard().squareAt(j, i).getOccupants().get(0);
+					game.getLevel().getBoard().squareAt(j, i).remove(pellet);;
+					assertTrue(game.getLevel().getBoard().squareAt(j, i).getOccupants().isEmpty());
+				}
+			  }
+			
+			}
+		}
+		
+		Square gSquare = square.getSquareAt(Direction.EAST);
+	
+		assertEquals(game.getLevel().remainingPellets(), 1);
+		assertTrue(square.getOccupants().contains(player));
+		assertFalse(gSquare.getOccupants().isEmpty());
+		
+		game.move(player, Direction.EAST);
+		assertEquals(player.getScore(), 10);
+		assertEquals(game.getLevel().remainingPellets(), 0);
+		
+		assertTrue(player.isAlive());
+		assertFalse(game.isInProgress());
+		
+	}
 
 	@Test
 	public void scenario3_1Test() throws InterruptedException {
