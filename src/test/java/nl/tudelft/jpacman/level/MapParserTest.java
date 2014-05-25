@@ -48,6 +48,41 @@ public class MapParserTest {
 		Mockito.verify(boardfactory).createGround();
 		Mockito.verify(boardfactory, Mockito.never()).createWall();
 		Mockito.verify(levelfactory, Mockito.never()).createGhost();
+		Mockito.verify(levelfactory, Mockito.never()).createPellet();
+	}
+	
+	@Test
+	public void onlyGhostTest() {
+		char[][] map = new char[1][1];
+		map[0][0] = 'G';
+		mapparser.parseMap(map);
+		Mockito.verify(boardfactory).createGround();
+		Mockito.verify(boardfactory, Mockito.never()).createWall();
+		Mockito.verify(levelfactory).createGhost();
+		Mockito.verify(levelfactory, Mockito.never()).createPellet();
+	}
+	
+	@Test
+	public void onlyPelletTest() {
+		char[][] map = new char[1][1];
+		map[0][0] = '.';
+		mapparser.parseMap(map);
+		Mockito.verify(boardfactory).createGround();
+		Mockito.verify(boardfactory, Mockito.never()).createWall();
+		Mockito.verify(levelfactory, Mockito.never()).createGhost();
+		Mockito.verify(levelfactory).createPellet();
+	}
+	
+	@Test
+	public void onlyWallTest() {
+		char[][] map = new char[1][1];
+		map[0][0] = '#';
+		mapparser.parseMap(map);
+		Mockito.verify(boardfactory, Mockito.never()).createGround();
+		Mockito.verify(boardfactory).createWall();
+		Mockito.verify(levelfactory, Mockito.never()).createGhost();
+		Mockito.verify(levelfactory, Mockito.never()).createPellet();
+		
 	}
 
 	@Test
@@ -73,6 +108,7 @@ public class MapParserTest {
 		Mockito.verify(boardfactory, Mockito.times(3)).createGround();
 		Mockito.verify(boardfactory).createWall();
 		Mockito.verify(levelfactory).createGhost();
+		Mockito.verify(levelfactory).createPellet();
 	}
 
 	@Test
