@@ -142,11 +142,12 @@ public class MapParserTest {
 		}
 
 	}
-	
+
 	@Test
 	public void wrongMapFileTest() throws IOException {
 		try {
-		mapparser.parseMap(Launcher.class.getResourceAsStream("/wrongmap.txt"));
+			mapparser.parseMap(Launcher.class
+					.getResourceAsStream("/wrongMap.txt"));
 			fail("Wrong character in map");
 		} catch (PacmanConfigurationException e) {
 			assertFalse(e.getMessage().equals(null));
