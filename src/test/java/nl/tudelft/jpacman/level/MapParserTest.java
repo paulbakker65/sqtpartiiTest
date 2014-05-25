@@ -1,11 +1,11 @@
 package nl.tudelft.jpacman.level;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
-import java.util.List;
+
 
 import nl.tudelft.jpacman.Launcher;
 import nl.tudelft.jpacman.PacmanConfigurationException;
@@ -19,20 +19,27 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+/**
+ * A test suite for the MapParser class from JPacman
+ * @author paulbakker
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class MapParserTest {
 
-	Launcher launcher;
-	MapParser mapparser;
+	private MapParser mapparser;
 	@Mock
-	LevelFactory levelfactory;
+	private LevelFactory levelfactory;
 	@Mock
-	BoardFactory boardfactory;
+	private BoardFactory boardfactory;
 	@Mock
-	Pellet pellet;
+	private Pellet pellet;
 	@Mock
-	NPC ghost;
+	private NPC ghost;
 
+	/**
+	 * We add the levelfactory and boardfactory to the mapparser. We also define what mockito
+	 * should do with the methods createPellet() and createGhost().
+	 */
 	@Before
 	public void setUp() {
 		mapparser = new MapParser(levelfactory, boardfactory);
@@ -40,6 +47,9 @@ public class MapParserTest {
 		Mockito.when(levelfactory.createGhost()).thenReturn(ghost);
 	}
 
+	/**
+	 * Test with only a player on an 1 by 1 map.
+	 */
 	@Test
 	public void onlyPlayerTest() {
 		char[][] map = new char[1][1];
@@ -51,6 +61,9 @@ public class MapParserTest {
 		Mockito.verify(levelfactory, Mockito.never()).createPellet();
 	}
 	
+	/**
+	 * Test with only a ghost on an 1 by 1 map.
+	 */
 	@Test
 	public void onlyGhostTest() {
 		char[][] map = new char[1][1];
@@ -62,6 +75,9 @@ public class MapParserTest {
 		Mockito.verify(levelfactory, Mockito.never()).createPellet();
 	}
 	
+	/**
+	 * Test with only a pellet on an 1 by 1 map.
+	 */
 	@Test
 	public void onlyPelletTest() {
 		char[][] map = new char[1][1];
@@ -73,6 +89,9 @@ public class MapParserTest {
 		Mockito.verify(levelfactory).createPellet();
 	}
 	
+	/**
+	 * Test with only a wall on an 1 by 1 map.
+	 */
 	@Test
 	public void onlyWallTest() {
 		char[][] map = new char[1][1];
@@ -85,6 +104,9 @@ public class MapParserTest {
 		
 	}
 
+	/**
+	 * A test with two players on a 2 by 1 map.
+	 */
 	@Test
 	public void twoPlayersTest() {
 		char[][] map = new char[2][1];
@@ -97,6 +119,9 @@ public class MapParserTest {
 
 	}
 
+	/**
+	 * A test with all possible units.
+	 */
 	@Test
 	public void validTest() {
 		char[][] map = new char[1][4];
@@ -111,6 +136,9 @@ public class MapParserTest {
 		Mockito.verify(levelfactory).createPellet();
 	}
 
+	/**
+	 * A test with a wrong character.
+	 */
 	@Test
 	public void wrongMapTest() {
 		try {
@@ -129,6 +157,9 @@ public class MapParserTest {
 
 	}
 
+	/**
+	 * A test with an empty map.
+	 */
 	@Test
 	public void emptyMapTest() {
 		char[][] map = new char[1][1];
@@ -145,13 +176,21 @@ public class MapParserTest {
 		}
 
 	}
-
+	
+	/**
+	 * A test with null as a map.
+	 * @throws IOException
+	 */
 	@Test(expected = NullPointerException.class)
 	public void nullTest() throws IOException {
 		char[][] map = null;
 		mapparser.parseMap(map);
 	}
 
+	/**
+	 * Test for the filereader with a valid map.
+	 * @throws IOException
+	 */
 	@Test
 	public void validFileTest() throws IOException {
 
@@ -162,6 +201,10 @@ public class MapParserTest {
 		Mockito.verify(levelfactory).createGhost();
 	}
 
+	/**
+	 * Test for the filereader with a empty file.
+	 * @throws IOException
+	 */
 	@Test
 	public void emptymapFileTest() throws IOException {
 
@@ -179,6 +222,10 @@ public class MapParserTest {
 
 	}
 
+	/**
+	 * Tets for the filereader with wrong characters in the file.
+	 * @throws IOException
+	 */
 	@Test
 	public void wrongMapFileTest() throws IOException {
 		try {
