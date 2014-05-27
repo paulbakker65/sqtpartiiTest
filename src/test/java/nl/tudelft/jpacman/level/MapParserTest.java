@@ -21,6 +21,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * A test suite for the MapParser class from JPacman.
+ * 
  * @author paulbakker
  */
 @RunWith(MockitoJUnitRunner.class)
@@ -37,8 +38,8 @@ public class MapParserTest {
 	private NPC ghost;
 
 	/**
-	 * We add the levelfactory and boardfactory to the mapparser. We also define what mockito
-	 * should do with the methods createPellet() and createGhost().
+	 * We add the levelfactory and boardfactory to the mapparser. We also define
+	 * what mockito should do with the methods createPellet() and createGhost().
 	 */
 	@Before
 	public void setUp() {
@@ -59,9 +60,10 @@ public class MapParserTest {
 		Mockito.verify(boardfactory, Mockito.never()).createWall();
 		Mockito.verify(levelfactory, Mockito.never()).createGhost();
 		Mockito.verify(levelfactory, Mockito.never()).createPellet();
-		Mockito.verify(levelfactory).createLevel(Mockito.any(Board.class), Mockito.anyListOf(NPC.class), Mockito.anyListOf(Square.class));
+		Mockito.verify(levelfactory).createLevel(Mockito.any(Board.class),
+				Mockito.anyListOf(NPC.class), Mockito.anyListOf(Square.class));
 	}
-	
+
 	/**
 	 * Test with only a ghost on an 1 by 1 map.
 	 */
@@ -74,9 +76,10 @@ public class MapParserTest {
 		Mockito.verify(boardfactory, Mockito.never()).createWall();
 		Mockito.verify(levelfactory).createGhost();
 		Mockito.verify(levelfactory, Mockito.never()).createPellet();
-		Mockito.verify(levelfactory).createLevel(Mockito.any(Board.class), Mockito.anyListOf(NPC.class), Mockito.anyListOf(Square.class));
+		Mockito.verify(levelfactory).createLevel(Mockito.any(Board.class),
+				Mockito.anyListOf(NPC.class), Mockito.anyListOf(Square.class));
 	}
-	
+
 	/**
 	 * Test with only a pellet on an 1 by 1 map.
 	 */
@@ -89,9 +92,10 @@ public class MapParserTest {
 		Mockito.verify(boardfactory, Mockito.never()).createWall();
 		Mockito.verify(levelfactory, Mockito.never()).createGhost();
 		Mockito.verify(levelfactory).createPellet();
-		Mockito.verify(levelfactory).createLevel(Mockito.any(Board.class), Mockito.anyListOf(NPC.class), Mockito.anyListOf(Square.class));
+		Mockito.verify(levelfactory).createLevel(Mockito.any(Board.class),
+				Mockito.anyListOf(NPC.class), Mockito.anyListOf(Square.class));
 	}
-	
+
 	/**
 	 * Test with only a wall on an 1 by 1 map.
 	 */
@@ -104,8 +108,9 @@ public class MapParserTest {
 		Mockito.verify(boardfactory).createWall();
 		Mockito.verify(levelfactory, Mockito.never()).createGhost();
 		Mockito.verify(levelfactory, Mockito.never()).createPellet();
-		Mockito.verify(levelfactory).createLevel(Mockito.any(Board.class), Mockito.anyListOf(NPC.class), Mockito.anyListOf(Square.class));
-		
+		Mockito.verify(levelfactory).createLevel(Mockito.any(Board.class),
+				Mockito.anyListOf(NPC.class), Mockito.anyListOf(Square.class));
+
 	}
 
 	/**
@@ -120,7 +125,8 @@ public class MapParserTest {
 		Mockito.verify(boardfactory, Mockito.times(2)).createGround();
 		Mockito.verify(boardfactory, Mockito.never()).createWall();
 		Mockito.verify(levelfactory, Mockito.never()).createGhost();
-		Mockito.verify(levelfactory).createLevel(Mockito.any(Board.class), Mockito.anyListOf(NPC.class), Mockito.anyListOf(Square.class));
+		Mockito.verify(levelfactory).createLevel(Mockito.any(Board.class),
+				Mockito.anyListOf(NPC.class), Mockito.anyListOf(Square.class));
 
 	}
 
@@ -139,7 +145,8 @@ public class MapParserTest {
 		Mockito.verify(boardfactory).createWall();
 		Mockito.verify(levelfactory).createGhost();
 		Mockito.verify(levelfactory).createPellet();
-		Mockito.verify(levelfactory).createLevel(Mockito.any(Board.class), Mockito.anyListOf(NPC.class), Mockito.anyListOf(Square.class));
+		Mockito.verify(levelfactory).createLevel(Mockito.any(Board.class),
+				Mockito.anyListOf(NPC.class), Mockito.anyListOf(Square.class));
 	}
 
 	/**
@@ -159,7 +166,9 @@ public class MapParserTest {
 			Mockito.verify(boardfactory, Mockito.never()).createWall();
 			Mockito.verify(levelfactory, Mockito.never()).createGhost();
 			Mockito.verify(levelfactory, Mockito.never()).createPellet();
-			Mockito.verify(levelfactory, Mockito.never()).createLevel(Mockito.any(Board.class), Mockito.anyListOf(NPC.class), Mockito.anyListOf(Square.class));
+			Mockito.verify(levelfactory, Mockito.never()).createLevel(
+					Mockito.any(Board.class), Mockito.anyListOf(NPC.class),
+					Mockito.anyListOf(Square.class));
 		}
 
 	}
@@ -180,13 +189,16 @@ public class MapParserTest {
 			Mockito.verify(boardfactory, Mockito.never()).createWall();
 			Mockito.verify(levelfactory, Mockito.never()).createGhost();
 			Mockito.verify(levelfactory, Mockito.never()).createPellet();
-			Mockito.verify(levelfactory, Mockito.never()).createLevel(Mockito.any(Board.class), Mockito.anyListOf(NPC.class), Mockito.anyListOf(Square.class));
+			Mockito.verify(levelfactory, Mockito.never()).createLevel(
+					Mockito.any(Board.class), Mockito.anyListOf(NPC.class),
+					Mockito.anyListOf(Square.class));
 		}
 
 	}
-	
+
 	/**
 	 * A test with null as a map.
+	 * 
 	 * @throws IOException
 	 */
 	@Test(expected = NullPointerException.class)
@@ -197,7 +209,9 @@ public class MapParserTest {
 
 	/**
 	 * Test for the filereader with a valid map.
-	 * @throws IOException  when there is a invalid file
+	 * 
+	 * @throws IOException
+	 *             when there is a invalid file
 	 */
 	@Test
 	public void validFileTest() throws IOException {
@@ -207,12 +221,15 @@ public class MapParserTest {
 		Mockito.verify(boardfactory, Mockito.times(3)).createGround();
 		Mockito.verify(boardfactory).createWall();
 		Mockito.verify(levelfactory).createGhost();
-		Mockito.verify(levelfactory).createLevel(Mockito.any(Board.class), Mockito.anyListOf(NPC.class), Mockito.anyListOf(Square.class));
+		Mockito.verify(levelfactory).createLevel(Mockito.any(Board.class),
+				Mockito.anyListOf(NPC.class), Mockito.anyListOf(Square.class));
 	}
 
 	/**
 	 * Test for the filereader with a empty file.
-	 * @throws IOException  when there is a invalid file
+	 * 
+	 * @throws IOException
+	 *             when there is a invalid file
 	 */
 	@Test
 	public void emptymapFileTest() throws IOException {
@@ -227,14 +244,18 @@ public class MapParserTest {
 			Mockito.verify(boardfactory, Mockito.never()).createWall();
 			Mockito.verify(levelfactory, Mockito.never()).createGhost();
 			Mockito.verify(levelfactory, Mockito.never()).createPellet();
-			Mockito.verify(levelfactory, Mockito.never()).createLevel(Mockito.any(Board.class), Mockito.anyListOf(NPC.class), Mockito.anyListOf(Square.class));
+			Mockito.verify(levelfactory, Mockito.never()).createLevel(
+					Mockito.any(Board.class), Mockito.anyListOf(NPC.class),
+					Mockito.anyListOf(Square.class));
 		}
 
 	}
 
 	/**
 	 * Tets for the filereader with wrong characters in the file.
-	 * @throws IOException when there is a invalid file
+	 * 
+	 * @throws IOException
+	 *             when there is a invalid file
 	 */
 	@Test
 	public void wrongMapFileTest() throws IOException {
@@ -248,7 +269,9 @@ public class MapParserTest {
 			Mockito.verify(boardfactory, Mockito.never()).createWall();
 			Mockito.verify(levelfactory, Mockito.never()).createGhost();
 			Mockito.verify(levelfactory, Mockito.never()).createPellet();
-			Mockito.verify(levelfactory, Mockito.never()).createLevel(Mockito.any(Board.class), Mockito.anyListOf(NPC.class), Mockito.anyListOf(Square.class));
+			Mockito.verify(levelfactory, Mockito.never()).createLevel(
+					Mockito.any(Board.class), Mockito.anyListOf(NPC.class),
+					Mockito.anyListOf(Square.class));
 		}
 
 	}
