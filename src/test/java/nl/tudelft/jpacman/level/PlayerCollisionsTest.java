@@ -42,15 +42,14 @@ public class PlayerCollisionsTest {
 	 */
 	@Theory
 	public void playerCollidedOnpelletTest(CollisionMap playercollisions) {
+		
 		Mockito.when(pellet.getValue()).thenReturn(pelletValue);
 		pellet.occupy(square); // Put the pellet on the square
 		playercollisions.collide(player, pellet); // Collide
 
-		Mockito.verify(player, Mockito.never()).setAlive(false); // Player
-																	// should
-																	// not be
-																	// killed
-		Mockito.verify(pellet).leaveSquare(); // pellet should disappear
+		Mockito.verify(player, Mockito.never()).setAlive(false); // Player should not be killed
+		Mockito.verify(pellet).getValue(); // Value of pellet should be used
+		Mockito.verify(pellet).leaveSquare(); // Pellet should be removed
 		Mockito.verify(player).addPoints(pelletValue); // Player should earn 30 points
 
 	}
@@ -65,7 +64,10 @@ public class PlayerCollisionsTest {
 		playercollisions.collide(player, ghost); // Collide
 
 		Mockito.verify(player).setAlive(false); // Player should be killed
-
+		Mockito.verify(pellet, Mockito.never()).getValue(); // Value of pellet should not be used
+		Mockito.verify(pellet, Mockito.never()).leaveSquare(); // Pellet should not be removed
+		Mockito.verify(player, Mockito.never()).addPoints(pelletValue); // Player should not earn 30 points
+		
 		assertFalse(player.isAlive());
 
 	}
@@ -80,6 +82,9 @@ public class PlayerCollisionsTest {
 		playercollisions.collide(ghost, player); // Collide
 
 		Mockito.verify(player).setAlive(false); // Player should be killed
+		Mockito.verify(pellet, Mockito.never()).getValue(); // Value of pellet should not be used
+		Mockito.verify(pellet, Mockito.never()).leaveSquare(); // Pellet should not be removed
+		Mockito.verify(player, Mockito.never()).addPoints(pelletValue); // Player should not earn 30 points
 
 		assertFalse(player.isAlive());
 
@@ -91,13 +96,15 @@ public class PlayerCollisionsTest {
 	 */
 	@Theory
 	public void ghostCollidedOnpelletTest(CollisionMap playercollisions) {
+		
 		Mockito.when(pellet.getValue()).thenReturn(pelletValue);
-		pellet.occupy(square);
-		playercollisions.collide(ghost, pellet);
+		pellet.occupy(square); // Put the pellet on the square
+		playercollisions.collide(ghost, pellet); // Collide
 
-		Mockito.verify(pellet, Mockito.never()).getValue();
-		Mockito.verify(pellet, Mockito.never()).leaveSquare();
-		Mockito.verify(player, Mockito.never()).addPoints(pelletValue);
+		Mockito.verify(player, Mockito.never()).setAlive(false); // Player should not be killed
+		Mockito.verify(pellet, Mockito.never()).getValue(); // Value of pellet should not be used
+		Mockito.verify(pellet, Mockito.never()).leaveSquare(); // Pellet should not be removed
+		Mockito.verify(player, Mockito.never()).addPoints(pelletValue); // Player should not earn 30 points
 
 	}
 
