@@ -116,6 +116,23 @@ public class MapParserTest {
 				Mockito.anyListOf(NPC.class), Mockito.anyListOf(Square.class));
 
 	}
+	
+	/**
+	 * Test with only a wall on an 1 by 1 map.
+	 */
+	@Test
+	public void onlyEmptySquareTest() {
+		char[][] map = new char[1][1];
+		map[0][0] = ' ';
+		mapparser.parseMap(map);
+		Mockito.verify(boardfactory).createGround();
+		Mockito.verify(boardfactory, Mockito.never()).createWall();
+		Mockito.verify(levelfactory, Mockito.never()).createGhost();
+		Mockito.verify(levelfactory, Mockito.never()).createPellet();
+		Mockito.verify(levelfactory).createLevel(Mockito.any(Board.class),
+				Mockito.anyListOf(NPC.class), Mockito.anyListOf(Square.class));
+
+	}
 
 	/**
 	 * A test with two players on a 2 by 1 map.
