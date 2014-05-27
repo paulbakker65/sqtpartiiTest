@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
 /**
- * A test suite for the PlayerCollisions class from JPacman
+ * A test suite for the PlayerCollisions class from JPacman.
  * 
  * @author timwilliams
  */
@@ -25,16 +25,19 @@ public class PlayerCollisionsTest {
 	private Ghost ghost = mock(Ghost.class);
 
 	/**
-	 * Create new PlayerCollisions. When pellet.getValue() is called return 30.
+	 * Create new CollisionsMap with PlayerCollision. 
 	 */
 	@DataPoint
 	public static CollisionMap map = new PlayerCollisions();
 
+	/**
+	 * Create new CollisionsMap with DefaultPlayerInteractionMap. 
+	 */
 	@DataPoint
 	public static CollisionMap map1 = new DefaultPlayerInteractionMap();
 
 	/**
-	 * Test with a player colliding on a pellet
+	 * Test with a player colliding on a pellet.
 	 */
 	@Theory
 	public void PlayerCollidedOnPelletTest(CollisionMap playercollisions) {
@@ -55,7 +58,7 @@ public class PlayerCollisionsTest {
 	}
 
 	/**
-	 * Test with a player colliding on a ghost
+	 * Test with a player colliding on a ghost.
 	 */
 	@Theory
 	public void PlayerCollidedOnGhostTest(CollisionMap playercollisions) {
@@ -69,7 +72,7 @@ public class PlayerCollisionsTest {
 	}
 
 	/**
-	 * Test with a ghost colliding on a player
+	 * Test with a ghost colliding on a player.
 	 */
 	@Theory
 	public void GhostCollidedOnPlayerTest(CollisionMap playercollisions) {
