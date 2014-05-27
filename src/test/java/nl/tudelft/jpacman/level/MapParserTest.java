@@ -4,6 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.List;
 
 import nl.tudelft.jpacman.Launcher;
 import nl.tudelft.jpacman.PacmanConfigurationException;
@@ -203,11 +204,11 @@ public class MapParserTest {
 	 * A test with null as a map.
 	 * 
 	 * @throws IOException
-	 * 				when there is a invalid file
+	 * 				when there is an invalid file
 	 */
-	@Test(expected = NullPointerException.class)
+	@Test(expected = PacmanConfigurationException.class)
 	public void nullTest() throws IOException {
-		char[][] map = null;
+		List<String> map = null;
 		mapparser.parseMap(map);
 	}
 
@@ -215,7 +216,7 @@ public class MapParserTest {
 	 * Test for the filereader with a valid map.
 	 * 
 	 * @throws IOException
-	 *             when there is a invalid file
+	 *             when there is an invalid file
 	 */
 	@Test
 	public void validFileTest() throws IOException {
@@ -233,7 +234,7 @@ public class MapParserTest {
 	 * Test for the filereader with a empty file.
 	 * 
 	 * @throws IOException
-	 *             when there is a invalid file
+	 *             when there is an invalid file
 	 */
 	@Test
 	public void emptymapFileTest() throws IOException {
@@ -254,12 +255,62 @@ public class MapParserTest {
 		}
 
 	}
+	
+	/**
+	 * Test with zero width.
+	 * @throws IOException
+	 * 				when there is an invalid file
+	 */
+	@Test
+	public void zeroWidthFileTest() throws IOException {
+
+		try {
+			mapparser.parseMap(Launcher.class
+					.getResourceAsStream("/zeroWidthMap.txt"));
+			fail("Zero width map");
+		} catch (PacmanConfigurationException e) {
+			assertFalse(e.getMessage().equals(null));
+			Mockito.verify(boardfactory, Mockito.never()).createGround();
+			Mockito.verify(boardfactory, Mockito.never()).createWall();
+			Mockito.verify(levelfactory, Mockito.never()).createGhost();
+			Mockito.verify(levelfactory, Mockito.never()).createPellet();
+			Mockito.verify(levelfactory, Mockito.never()).createLevel(
+					Mockito.any(Board.class), Mockito.anyListOf(NPC.class),
+					Mockito.anyListOf(Square.class));
+		}
+
+	}
+	
+	/**
+	 * Test with unequal width.
+	 * @throws IOException
+	 * 			when there is an invalid file
+	 */
+	@Test
+	public void notEqualWidthFileTest() throws IOException {
+
+		try {
+			mapparser.parseMap(Launcher.class
+					.getResourceAsStream("/notEqualWidthMap.txt"));
+			fail("Not Equal Width");
+		} catch (PacmanConfigurationException e) {
+			assertFalse(e.getMessage().equals(null));
+			Mockito.verify(boardfactory, Mockito.never()).createGround();
+			Mockito.verify(boardfactory, Mockito.never()).createWall();
+			Mockito.verify(levelfactory, Mockito.never()).createGhost();
+			Mockito.verify(levelfactory, Mockito.never()).createPellet();
+			Mockito.verify(levelfactory, Mockito.never()).createLevel(
+					Mockito.any(Board.class), Mockito.anyListOf(NPC.class),
+					Mockito.anyListOf(Square.class));
+		}
+
+	}
 
 	/**
 	 * Tets for the filereader with wrong characters in the file.
 	 * 
 	 * @throws IOException
-	 *             when there is a invalid file
+	 *             when there is an invalid file
 	 */
 	@Test
 	public void wrongMapFileTest() throws IOException {
