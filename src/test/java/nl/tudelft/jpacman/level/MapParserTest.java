@@ -221,7 +221,7 @@ public class MapParserTest {
 	public void validFileTest() throws IOException {
 
 		mapparser
-				.parseMap(Launcher.class.getResourceAsStream("/simpleMap.txt"));
+				.parseMap(Launcher.class.getResourceAsStream("/simplemap.txt"));
 		Mockito.verify(boardfactory, Mockito.times(simpleMapUnits)).createGround();
 		Mockito.verify(boardfactory).createWall();
 		Mockito.verify(levelfactory).createGhost();
