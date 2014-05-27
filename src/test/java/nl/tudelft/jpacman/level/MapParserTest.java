@@ -36,6 +36,9 @@ public class MapParserTest {
 	private Pellet pellet;
 	@Mock
 	private NPC ghost;
+	private final int simpleMapUnits = 3;
+	private final int twoPlayerUnits = 2;
+	
 
 	/**
 	 * We add the levelfactory and boardfactory to the mapparser. We also define
@@ -122,7 +125,7 @@ public class MapParserTest {
 		map[0][0] = 'P';
 		map[1][0] = 'P';
 		mapparser.parseMap(map);
-		Mockito.verify(boardfactory, Mockito.times(2)).createGround();
+		Mockito.verify(boardfactory, Mockito.times(twoPlayerUnits)).createGround();
 		Mockito.verify(boardfactory, Mockito.never()).createWall();
 		Mockito.verify(levelfactory, Mockito.never()).createGhost();
 		Mockito.verify(levelfactory).createLevel(Mockito.any(Board.class),
@@ -141,7 +144,7 @@ public class MapParserTest {
 		map[0][2] = 'G';
 		map[0][3] = '#';
 		mapparser.parseMap(map);
-		Mockito.verify(boardfactory, Mockito.times(3)).createGround();
+		Mockito.verify(boardfactory, Mockito.times(simpleMapUnits)).createGround();
 		Mockito.verify(boardfactory).createWall();
 		Mockito.verify(levelfactory).createGhost();
 		Mockito.verify(levelfactory).createPellet();
@@ -200,6 +203,7 @@ public class MapParserTest {
 	 * A test with null as a map.
 	 * 
 	 * @throws IOException
+	 * 				when there is a invalid file
 	 */
 	@Test(expected = NullPointerException.class)
 	public void nullTest() throws IOException {
@@ -217,8 +221,8 @@ public class MapParserTest {
 	public void validFileTest() throws IOException {
 
 		mapparser
-				.parseMap(Launcher.class.getResourceAsStream("/simplemap.txt"));
-		Mockito.verify(boardfactory, Mockito.times(3)).createGround();
+				.parseMap(Launcher.class.getResourceAsStream("/simpleMap.txt"));
+		Mockito.verify(boardfactory, Mockito.times(simpleMapUnits)).createGround();
 		Mockito.verify(boardfactory).createWall();
 		Mockito.verify(levelfactory).createGhost();
 		Mockito.verify(levelfactory).createLevel(Mockito.any(Board.class),

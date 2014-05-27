@@ -22,6 +22,7 @@ public class PlayerCollisionsTest {
 	private Pellet pellet = mock(Pellet.class);
 	private Player player = mock(Player.class);
 	private Ghost ghost = mock(Ghost.class);
+	private final int pelletValue = 30;
 
 	/**
 	 * Create new CollisionsMap with PlayerCollision.
@@ -37,10 +38,11 @@ public class PlayerCollisionsTest {
 
 	/**
 	 * Test with a player colliding on a pellet.
+	 * @param playercollisions CollisionMap
 	 */
 	@Theory
-	public void PlayerCollidedOnPelletTest(CollisionMap playercollisions) {
-		Mockito.when(pellet.getValue()).thenReturn(30);
+	public void playerCollidedOnpelletTest(CollisionMap playercollisions) {
+		Mockito.when(pellet.getValue()).thenReturn(pelletValue);
 		pellet.occupy(square); // Put the pellet on the square
 		playercollisions.collide(player, pellet); // Collide
 
@@ -48,16 +50,17 @@ public class PlayerCollisionsTest {
 																	// should
 																	// not be
 																	// killed
-		Mockito.verify(pellet).leaveSquare(); // Pellet should disappear
-		Mockito.verify(player).addPoints(30); // Player should earn 30 points
+		Mockito.verify(pellet).leaveSquare(); // pellet should disappear
+		Mockito.verify(player).addPoints(pelletValue); // Player should earn 30 points
 
 	}
 
 	/**
 	 * Test with a player colliding on a ghost.
+	 * @param playercollisions CollisionMap
 	 */
 	@Theory
-	public void PlayerCollidedOnGhostTest(CollisionMap playercollisions) {
+	public void playerCollidedOnGhostTest(CollisionMap playercollisions) {
 
 		playercollisions.collide(player, ghost); // Collide
 
@@ -69,9 +72,10 @@ public class PlayerCollisionsTest {
 
 	/**
 	 * Test with a ghost colliding on a player.
+	 * @param playercollisions CollisionMap
 	 */
 	@Theory
-	public void GhostCollidedOnPlayerTest(CollisionMap playercollisions) {
+	public void ghostCollidedOnPlayerTest(CollisionMap playercollisions) {
 
 		playercollisions.collide(ghost, player); // Collide
 
@@ -81,14 +85,19 @@ public class PlayerCollisionsTest {
 
 	}
 
+	/**
+	 * Test with a ghost colliding on a pellet.
+	 * @param playercollisions CollisionMap
+	 */
 	@Theory
-	public void GhostCollidedOnPelletTest(CollisionMap playercollisions) {
-		Mockito.when(pellet.getValue()).thenReturn(30);
+	public void ghostCollidedOnpelletTest(CollisionMap playercollisions) {
+		Mockito.when(pellet.getValue()).thenReturn(pelletValue);
 		pellet.occupy(square);
 		playercollisions.collide(ghost, pellet);
 
 		Mockito.verify(pellet, Mockito.never()).getValue();
 		Mockito.verify(pellet, Mockito.never()).leaveSquare();
+		Mockito.verify(player, Mockito.never()).addPoints(pelletValue);
 
 	}
 
