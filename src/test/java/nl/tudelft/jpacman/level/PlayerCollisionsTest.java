@@ -4,7 +4,6 @@ import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
-
 import org.junit.experimental.theories.DataPoint;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
@@ -25,13 +24,13 @@ public class PlayerCollisionsTest {
 	private Ghost ghost = mock(Ghost.class);
 
 	/**
-	 * Create new CollisionsMap with PlayerCollision. 
+	 * Create new CollisionsMap with PlayerCollision.
 	 */
 	@DataPoint
 	public static CollisionMap map = new PlayerCollisions();
 
 	/**
-	 * Create new CollisionsMap with DefaultPlayerInteractionMap. 
+	 * Create new CollisionsMap with DefaultPlayerInteractionMap.
 	 */
 	@DataPoint
 	public static CollisionMap map1 = new DefaultPlayerInteractionMap();
@@ -51,9 +50,6 @@ public class PlayerCollisionsTest {
 																	// killed
 		Mockito.verify(pellet).leaveSquare(); // Pellet should disappear
 		Mockito.verify(player).addPoints(30); // Player should earn 30 points
-
-		assertFalse(square.getOccupants().contains(pellet));
-		// assertEquals(player.getScore(), 30);
 
 	}
 
@@ -82,6 +78,17 @@ public class PlayerCollisionsTest {
 		Mockito.verify(player).setAlive(false); // Player should be killed
 
 		assertFalse(player.isAlive());
+
+	}
+
+	@Theory
+	public void GhostCollidedOnPelletTest(CollisionMap playercollisions) {
+		Mockito.when(pellet.getValue()).thenReturn(30);
+		pellet.occupy(square);
+		playercollisions.collide(ghost, pellet);
+
+		Mockito.verify(pellet, Mockito.never()).getValue();
+		Mockito.verify(pellet, Mockito.never()).leaveSquare();
 
 	}
 
