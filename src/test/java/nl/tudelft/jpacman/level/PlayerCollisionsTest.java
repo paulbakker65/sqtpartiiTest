@@ -13,7 +13,7 @@ import org.mockito.Mockito;
 /**
  * A test suite for the PlayerCollisions class from JPacman.
  * 
- * @author timwilliams
+ * @author timwilliams - 1517813
  */
 @RunWith(Theories.class)
 public class PlayerCollisionsTest {

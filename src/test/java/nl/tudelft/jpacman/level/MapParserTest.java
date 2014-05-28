@@ -23,7 +23,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 /**
  * A test suite for the MapParser class from JPacman.
  * 
- * @author paulbakker
+ * @author paulbakker - 4326091
  */
 @RunWith(MockitoJUnitRunner.class)
 public class MapParserTest {
