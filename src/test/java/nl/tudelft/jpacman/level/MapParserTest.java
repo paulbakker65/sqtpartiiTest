@@ -118,7 +118,7 @@ public class MapParserTest {
 	}
 	
 	/**
-	 * Test with only a wall on an 1 by 1 map.
+	 * Test with only a empty square on an 1 by 1 map.
 	 */
 	@Test
 	public void onlyEmptySquareTest() {
